@@ -39,12 +39,12 @@ jobs:
         with:
           context: .
           file: ./Dockerfile.dev
-          tags: ${{ env.DOCKERHUB_USERNAME }}/python-crud-dev:latest
+          tags: ${{ env.DOCKERHUB_USERNAME }}python-crud-dev:latest
           load: true
 
       - name: Run tests
         run: |
-          docker run --rm --network=host ${{ env.DOCKERHUB_USERNAME }}/python-crud-dev:latest
+          docker run --rm --network=host ${{ env.DOCKERHUB_USERNAME }}python-crud-dev:latest
 
   deploy:
     needs: test
@@ -71,7 +71,7 @@ jobs:
           context: .
           file: ./Dockerfile.prod
           push: true
-          tags: ${{ env.DOCKERHUB_USERNAME }}/python-crud:latest  # Исправлено опечатку pythod -> python
+          tags: ${{ env.DOCKERHUB_USERNAME }}python-crud:latest  # Исправлено опечатку pythod -> python
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v1
@@ -88,10 +88,10 @@ jobs:
             podman rm python-crud || true
 
             # Remove existing image if it exists
-            podman rmi ${{ env.DOCKERHUB_USERNAME }}/python-crud:latest || true
+            podman rmi ${{ env.DOCKERHUB_USERNAME }}python-crud:latest || true
 
             # Pull new image from Docker Hub
-            podman pull ${{ env.DOCKERHUB_USERNAME }}/python-crud:latest
+            podman pull ${{ env.DOCKERHUB_USERNAME }}python-crud:latest
 
             # Run new container
             podman run -d --name python-crud --network host ${{ env.DOCKERHUB_USERNAME }}/python-crud:latest
